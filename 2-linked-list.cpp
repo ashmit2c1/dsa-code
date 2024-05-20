@@ -73,6 +73,64 @@ void updateAtK(Node* &head, int K, int value){
     }
     temp->data = value;
 }
+// =========================================== // 
+// DELETE A NODE AT THE HEAD OF THE LINKED LIST
+// =========================================== // 
+void deleteAtHead(Node* &head){
+    Node* temp = head;
+    head=head->next;
+    free(temp);
+}
+// =========================================== // 
+// DELETE A NODE AT THE END OF A LINKED LIST
+// =========================================== // 
+void deleteAtTail(Node* &head){
+    Node* temp =head;
+    while(temp->next->next!=NULL){
+        temp=temp->next;
+    }
+    Node* delNode = temp->next;
+    temp->next=NULL;
+    free(temp);
+}
+// =========================================== // 
+// DELETE A NODE AT THE KTH POSITION 
+// =========================================== // 
+void deleteAtK(Node* &head, int K){
+    if(K==0){
+        deleteAtHead(head);
+    }
+    int pos=0;
+    Node* temp = head;
+    while(pos!=K-1){
+        temp=temp->next;
+    }
+    Node* delNode  = temp->next;
+    delNode->next = temp->next->next;
+    free(temp);
+}
+// =========================================== // 
+// LENGTH OF THE LINKED LIST 
+// =========================================== // 
+int lengthOfLinkedList(Node* &head){
+    int count=0;
+    while(head!=NULL){
+        head=head->next;
+        count++;
+    }
+    return count;
+}
+// =========================================== // 
+// PRINT THE KTH NODE
+// =========================================== // 
+void printKthNode(Node* &head, int K){
+    int count=0;
+    while(count<=K){
+        head=head->next;
+        count++;
+    }
+    cout << head->data << "\n";
+}
 int main(){
     // CREATING NODES STATICALLY
     Node n1(1);
