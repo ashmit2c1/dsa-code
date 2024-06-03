@@ -42,6 +42,7 @@ int findElement(vector<int> &v){
     for(int i = 0; i<n ; i++){
         if(v[i]!=-1){
             element = v[i];
+            break;
         }
     }
     return element;
@@ -210,11 +211,11 @@ int maxSum(vector<int> &v, int k){
     int n = v.size();
     int sum =0;
     int maxSum=0;
-    for(int i = 0; i<n ; i++){
+    for(int i = 0; i<k ; i++){
         sum+=v[i];
     }
     maxSum=sum;
-    for(int i = 0; i<k ; i++){
+    for(int i = k; i<n ; i++){
         sum = sum +v[i]-v[i-k];
         maxSum = max(maxSum,sum);
     }
