@@ -68,3 +68,72 @@ int main(){
         adjList[v].push_back(u);
     }
 }
+// =========================================== // 
+// CYCLE DETECTION USING DFS
+// =========================================== // 
+bool checkForCycle(int node, int parent, vector<bool>&visited,vector<int> adj[]){
+    visited[node]=true;
+    for(int i=0;i<adj[node].size();i++){
+        int neighbor = adj[node][i];
+        if(neighbor==parent){
+            continue;
+        }
+        if(visited[neighbor]==true){
+            return true;
+        }
+        if(visited[neighbor]==false){
+            if(checkForCycle(neighbor,node,visited,adj)==true){
+                return true;
+            }
+        }
+    }
+}
+bool isCycle(int V, vector<int> adj[]){
+    vector<bool> visited(V,false);
+    for(int i=0;i<V;i++){
+        if(visited[i]==false){
+            if(checkForCycle(i,-1,visited,adj)==true){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+// =========================================== // 
+// CYCLE DETECTION USING DFS
+// =========================================== // 
+bool checkForCycleBFS(vector<int> adj[], vector<bool> &visited, int node){
+    visited[node]= true;
+    queue<pair<int,int>> q;
+    q.push(make_pair(node,-1));
+    while(q.empty()==false){
+        int node = q.front().first;
+        int parent = q.front().second;
+        q.pop();
+        for(int i=0;i<adj[node].size();i++){
+            int neighbor = adj[node][i];
+            if(neighbor==parent){
+                continue;
+            }
+            if(visited[neighbor]==true){
+                return true;
+            }
+            if(visited[neighbor]==false){
+                visited[neighbor]=true;
+                q.push(make_pair(neighbor,node));
+            }
+        }
+    }
+    return false;
+}
+bool isCycle(int V, vector<int> adj[]){
+    vector<bool> visited(V,false);
+    for(int i = 0; i<V ; i++){
+        if(visited[i]==false){
+            if(checkForCycleBFS(adj,visited,i)==true){
+                return true;
+            }
+        }
+        return false;
+    }
+}
