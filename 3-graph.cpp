@@ -138,3 +138,65 @@ bool isCycle(int V, vector<int> adj[]){
         return false;
     }
 }
+// =========================================== // 
+// TOPOLOGICAL SORT USING DFS
+// =========================================== // 
+void dfsTopSort(int node, vector<bool>&visited, vector<int> adj[],stack<int> &s){
+    visited[node]=true;
+    for(int i=0;i<adj[node].size();i++){
+        if(visited[adj[node][i]]==false){
+            dfsTopSort(adj[node][i],visited,adj,s);
+        }
+
+    }
+    s.push(node);
+
+}
+vector<int> topologicalSortDFS(int V, vector<int> adj[]){
+    vector<bool> visited(V,false);
+    stack<int> s;
+    vector<int> ans;
+    for(int i=0;i<V;i++){
+        if(visited[i]==false){
+            dfsTopSort(i,visited,adj,s);
+        }
+    }
+    while(s.empty()==false){
+        ans.push_back(s.top());
+        s.pop();
+    }
+    return ans;
+}
+// =========================================== // 
+// TOPOLOGICAL SORT USING BFS ( KAHN"S ALGORITHM )
+// =========================================== // 
+vector<int> kahnsAlgorithm(int V, vector<int> adj[]){
+    vector<int> ans;
+    vector<int> inDegree(V,0);
+    for(int i=0;i<V;i++){
+        for(int j=0;j<adj[i].size();j++){
+            int node = adj[i][j];
+            inDegree[node]++;
+        }
+    }
+    queue<int> q;
+    for(int i=0;i<V;i++){
+        if(inDegree[i]==0){
+            q.push(i);
+        }
+    }
+    while(q.empty()==false){
+        int node = q.front();
+        q.pop();
+        ans.push_back(node);
+        int n = adj[node].size();
+        for(int i=0;i<n;i++){
+            int neighbor = adj[node][i];
+            inDegree[neighbor]--;
+            if(inDegree[neighbor]==0){
+                q.push(neighbor);
+            }
+        }
+    }
+    return ans;
+}
