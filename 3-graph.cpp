@@ -87,6 +87,7 @@ bool checkForCycle(int node, int parent, vector<bool>&visited,vector<int> adj[])
             }
         }
     }
+    return false;
 }
 bool isCycle(int V, vector<int> adj[]){
     vector<bool> visited(V,false);
@@ -100,7 +101,7 @@ bool isCycle(int V, vector<int> adj[]){
     return false;
 }
 // =========================================== // 
-// CYCLE DETECTION USING DFS
+// CYCLE DETECTION USING BFS
 // =========================================== // 
 bool checkForCycleBFS(vector<int> adj[], vector<bool> &visited, int node){
     visited[node]= true;
