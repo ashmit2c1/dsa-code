@@ -50,15 +50,73 @@ int minCostClimbingStair2(vector<int> &cost){
     }
     return min(dp[n-1],dp[n-2]);
 }
-int main(){
-    int n;
-    cin >> n;
-    vector<int> dp(n+1);
-    for(int i = 0; i<n ; i++){
-        dp[i]=-1;
+// FIND THE MINMIMUM NUMBER OF COINS RECURSIVE APPROACH 
+int findMin(vector<int> &nums, int x){
+    if(x==0){
+        return 0;
+    }
+    if(x<0){
+        return -1;
 
     }
-    int ans = fib(n,dp);
-    cout << ans << "\n";
-    
+    int minCoins = INT_MAX;
+    int n = nums.size();
+    for(int i = 0; i<n ; i++){
+        int ans = findMin(nums,x-nums[i]);
+        if(ans!=-1){
+            minCoins = min(minCoins,1+ans);
+        }
+
+    }
+}
+// MINIMUM NUNBER OF COINS USING RECURSION + MEMORISATION 
+int solve(vector<int> &nums, vector<int> &dp, int x){
+    if(x==0){
+        return 0;
+    }
+    if(x<0){
+        return -1;
+    }
+    if(dp[x]!=-1){
+        return dp[x];
+    }
+    int minCoins = INT_MAX;
+    int  n = nums.size();
+    for(int i=0;i<n;i++){
+        int ans = solve(nums,dp,x-nums[i]);
+        if(ans!=-1){
+            minCoins = min(minCoins,1+ans);
+        }
+    }
+    dp[x]=minCoins;
+    return dp[x];
+
+}
+int findMin(vector<int> &nums, int x){
+    int n = nums.size();
+    vector<int> dp(n+1,-1);
+    int ans = solve(nums,dp,x);
+    return ans;
+}
+// MINIMUM NUNBER OF COINS USING ITERATION
+int solve(vector<int> &nums, vector<int>&dp, int x){
+    dp[0] = 0;
+    int n = nums.size();
+
+    int minCoins = INT_MAX;
+    for(int i=0;i<x;i++){
+        for(int j = 0; j<n ; j++){
+            dp[i] = min(dp[i],1+dp[i-nums[j]]);
+        }
+    }
+    if(dp[x]==-1){
+        return -1;
+    }
+    return dp[x];
+}
+int findMin(vector<int> &nums, int x){
+    int n = nums.size();
+    vector<int> dp(n+1,-1);
+    int ans = solve(nums,dp,x);
+    return ans;
 }
