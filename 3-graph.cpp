@@ -200,3 +200,40 @@ vector<int> kahnsAlgorithm(int V, vector<int> adj[]){
     }
     return ans;
 }
+// =========================================== // 
+// DETECT CYCLE IN DIRECTED GRAPH DFS
+// =========================================== // 
+bool detectCycle(int node, vector<int> adj[], vector<bool >&visited, vector<bool>&path){
+    visited[node]=true;
+    path[node]=true;
+    int n = adj[node].size();
+    for(int i = 0; i<n ; i++){
+        int neighbor = adj[node][i];
+        if(path[neighbor]==true){
+            return true;
+        }
+        if(visited[neighbor]==true){
+            continue;
+        }
+        if(visited[neighbor]==false){
+            if(detectCycle(neighbor,adj,visited,path)==true){
+                return true;
+            }
+        }
+    }
+    path[node]=false;
+    return false;
+
+}
+bool isCyclic(int V, vector<int> adj[]){
+    vector<bool> path(V,false);
+    vector<bool> visited(V,false);
+    for(int i=0;i<V;i++){
+        if(visited[i]==false){
+            if(detectCycle(i,adj,visited,path)==true){
+                return true;
+            }
+        }
+    }
+    return false;
+}
