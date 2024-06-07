@@ -237,3 +237,41 @@ bool isCyclic(int V, vector<int> adj[]){
     }
     return false;
 }
+// =========================================== // 
+// DETECT CYCLE IN DIRECTED GRAPH BFS ( KAHNS ALGORITHM)
+// =========================================== // 
+
+bool isCycle(int V, vector<int> adj[]){
+    vector<int> inDegree(V,0);
+    for(int i=0;i<V;i++){
+        for(int j=0;adj[i].size();i++){
+            inDegree[adj[i][j]]++;
+        }
+    }
+    queue<int> q;
+    for(int i=0;i<V;i++){
+        if(inDegree[i]==0){
+            q.push(i);
+        }
+    }
+    vector<int> ans;
+    while(q.empty()==false){
+        int node = q.front();
+        q.pop();
+        ans.push_back(node);
+        for(int i=0;i<adj[node].size();i++){
+            int neighbor = adj[node][i];
+            inDegree[neighbor]--;
+            if(inDegree[neighbor]==0){
+                q.push(neighbor);
+            }
+        }
+    }
+    int count = ans.size();
+    if(count!=V){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
