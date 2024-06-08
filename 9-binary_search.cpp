@@ -103,3 +103,69 @@ vector<int> firstAndLast(vector<int> &v, int x){
     ans.push_back(second);
     return ans;
 }
+// ======================================= // 
+// SEARCH FOR POSITION OF ELEMENT IN VECTOR / ARRAY // 
+// ======================================= // 
+int findIndex(vector<int> &arr,int x){
+    int n = arr.size();
+    int start  = 0 ;
+    int end = n-1;
+    int ans = n ;
+    while(start<=end)
+    {
+        int mid = start + (end-start)/2;
+        if(arr[mid]>=x){
+            ans = mid;
+            end = mid-1;
+        }
+        else{
+            start = mid+1;
+        }
+    }
+    return ans;
+}
+// ======================================= // 
+// FIND THE SMALLEST ELEMENT IN A ROTATE ARRAY // 
+// ======================================= // 
+int finMin(vector<int>& arr){
+    int n = arr.size();
+    int start =0 ;
+    int end = n-1;
+    int ans;
+    while(start<=end){
+        int mid = start + (end-start)/2;
+        if(arr[mid]>=arr[0]){
+            start = mid+1;
+        }
+        else{
+            ans = arr[mid];
+            end = mid-1;
+        }
+    }
+    return ans;
+}
+// ======================================= // 
+// FIND AN ELEMENT USING BINARY SEARCH IN 2D MATRIX // 
+// ======================================= // 
+bool isPresent(vector<vector<int>> &matrix, int X){
+    int rows = matrix.size();
+    int cols = matrix[0].size();
+    int n = rows;
+    for(int i = 0; i<n ; i++){
+        int start =0;
+        int end = cols-1;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(matrix[i][mid]==X){
+                return true;
+            }
+            if(X>matrix[i][mid]){
+                start = mid+1;
+            }
+            if(X<matrix[i][mid]){
+                end = mid-1;
+            }
+        }
+    }
+    return false;
+}
