@@ -60,3 +60,45 @@ int main(){
         cout << v[i] << " ";
     }
 }
+
+void merge(vector<int> &v, int start, int mid, int end) {
+    int size_a = mid - start + 1;
+    int size_b = end - mid;
+
+    vector<int> a(size_a);
+    vector<int> b(size_b);
+
+    for (int i = 0; i < size_a; i++) {
+        a[i] = v[start + i];
+    }
+    for (int i = 0; i < size_b; i++) {
+        b[i] = v[mid + 1 + i];
+    }
+
+    int i = 0, j = 0;
+    int k = start;
+    while (i < size_a && j < size_b) {
+        if (a[i] < b[j]) {
+            v[k++] = a[i++];
+        }
+        else {
+            v[k++] = b[j++];
+        }
+    }
+    while (i < size_a) {
+        v[k++] = a[i++];
+    }
+    while (j < size_b) {
+        v[k++] = b[j++];
+    }
+}
+
+void mergeSort(vector<int> &v, int start, int end) {
+    if (start >= end) {
+        return;
+    }
+    int mid = (start + end) / 2;
+    mergeSort(v, start, mid);
+    mergeSort(v, mid + 1, end);
+    merge(v, start, mid, end);
+}  
