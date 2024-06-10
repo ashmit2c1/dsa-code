@@ -38,3 +38,23 @@ int main(){
     printNTo1(n,n);
     
 }
+// ======================= // 
+// PARAMETERISED RECURSION // 
+// ======================= //
+ void parameterisedRecursion(int i, int sum){
+    if(i<1){
+        cout << sum << "\n";
+        return;
+    }
+    parameterisedRecursion(i-1,sum+i);
+} 
+// ======================= // 
+// PARAMETERISED RECURSION // 
+// ======================= //
+int functionalRecursion(int n){
+    if(n<=1){
+        return 1;
+    }
+    int ans = n*functionalRecursion(n-1);
+    return ans;
+}

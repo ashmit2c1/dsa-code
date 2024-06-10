@@ -339,3 +339,155 @@ bool isBipartite(int V, vector<int> adj[]) {
     }
     return true;
 }
+// =========================================== // 
+// COVID SPREAD
+// =========================================== // 
+int rows[4] = {-1,1,0,0};
+int cols[4] = {0,0,-1,1};
+int r,c;
+bool valid(int i,int j){
+    return i>=0 && i < r && j>=0 && j<c;
+}
+int function(vector<vector<int>> hospital){
+    r = hospital.size();
+    c = hospital[0].size();
+    queue<pair<int,int>> q;
+    for(int i=0;i<r;i++){
+        for(int j=0;j<c;j++){
+            if(hospital[i][j]==2){
+                q.push(make_pair(i,j));
+            }
+        }
+    }
+    int time = 0;
+    while(q.empty()==false){
+        int currentCovidPatients = q.size();
+        time++;
+        while(currentCovidPatients--){
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+            for(int k=0;k<4;k++){
+                int ni = i+rows[k];
+                int nj = j+cols[k];
+                if(valid(ni,nj)&&hospital[ni][nj]==1){
+                    hospital[ni][nj]==2;
+                    q.push(make_pair(ni,nj));
+                }
+            }
+        }
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(hospital[i][j]==1){
+                    return -1;
+                }
+            }
+        }
+        int ans = time-1;
+        return ans;
+    }
+}
+//=======================================//
+// REPLACE O'S WITH X'S //
+// =====================================//
+    int r;
+    int c;
+    int row[4] = {1,-1,0,0};
+    int col[4] = {0,0,-1,1};
+    bool valid(int i, int j){
+        return i>=0 && i < r && j>=0 && j < c;
+    }
+    vector<vector<char>> fill(int n, int m, vector<vector<char>> mat)
+    {
+        r = n ;
+        c = m ;
+        queue<pair<int, int>> q;
+        for(int i=0;i<c;i++){
+            if(mat[0][i]=='O'){
+                mat[0][i]='T';
+                q.push(make_pair(0,i));
+            }
+        }
+        for(int i=1;i<r;i++){
+            if(mat[i][0]=='O'){
+                mat[i][0]='T';
+                q.push(make_pair(i,0));
+            }
+        }
+        for(int i=1;i<r-1;i++){
+            if(mat[i][c-1]=='O'){
+                mat[i][c-1]='T';
+                q.push(make_pair(i,c-1));
+            }
+        }
+        for(int i=1;i<c;i++){
+            if(mat[r-1][i]=='O'){
+                mat[r-1][i]='T';
+                q.push(make_pair(r-1,i));
+            }
+        }
+        while(q.empty()==false){
+            int i = q.front().first;
+            int j = q.front().second;
+            q.pop();
+            for(int k=0;k<4;k++){
+                int newRow = i + row[k];
+                int newCol = j + col[k];
+                if(valid(newRow, newCol)&&mat[newRow][newCol]=='O'){
+                    q.push(make_pair(newRow,newCol));
+                    mat[newRow][newCol]='T';
+                }
+            }
+            
+        }
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(mat[i][j]=='O'){
+                    mat[i][j]='X';
+                }
+                if(mat[i][j]=='T'){
+                    mat[i][j]='O';
+                }
+            }
+        }
+        return mat;
+        
+    }
+// =========================================== // 
+// NUMBER OF ISLANDS
+// =========================================== // 
+int row[] = {-1, 1, 0, 0}; // Offsets for rows (up, down, left, right)
+int col[] = {0, 0, -1, 1}; // Offsets for columns (up, down, left, right)
+bool valid(int newRow, int newCol, vector<vector<char>>& grid) {
+    return newRow >= 0 && newRow < grid.size() && newCol >= 0 && newCol < grid[0].size() && grid[newRow][newCol] == '1';
+}
+int numIslands(vector<vector<char>>& grid) {
+    r = grid.size();
+    if (r == 0) return 0;
+    c = grid[0].size();
+    int count = 0;
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            if (grid[i][j] == '1') {
+                count++;
+                queue<pair<int, int>> q;
+                q.push(make_pair(i, j));
+                grid[i][j] = '0';
+                while (!q.empty()) {
+                    int rowIndex = q.front().first;
+                    int colIndex = q.front().second;
+                    q.pop();
+                    for (int k = 0; k < 8; k++) {
+                        int newRow = rowIndex + row[k];
+                        int newCol = colIndex + col[k];
+                        if (valid(newRow, newCol, grid)) {
+                            grid[newRow][newCol] = '0'; // Mark as visited
+                            q.push(make_pair(newRow, newCol));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return count;
+}
