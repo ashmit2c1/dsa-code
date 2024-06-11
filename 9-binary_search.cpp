@@ -225,3 +225,49 @@ bool search(vector<int> arr, int x){
     }
     return false;
 }
+// ======================================= // 
+// BINARY SEARCH IN 2D ARRAYS // 
+// ======================================= //
+bool findIn2D(vector<vector<int>> &mat, int x){
+    int rows  = mat.size();
+    int cols = mat[0].size();
+    for (int i=0;i<rows;i++){
+        int start = 0;
+        int end = cols-1;
+        while(start<=end){
+            int mid = start+(end-start)/2;
+            if(mat[i][mid]==x){
+                return true;
+            }
+            if(x>mat[i][mid]){
+                start = mid+1;
+            }
+            if(x<mat[i][mid]){
+                end= mid-1;
+            }
+        }
+    }
+    return false;
+}
+// ======================================= // 
+// FIND THE MINIMUM ELEMENT IN ROTATED SORTED ARRAY // 
+// ======================================= //
+int findMin(vector<int> arr){
+    int n = arr.size();
+    int start = 0;
+    int end = n-1;
+    int ans = arr[0];
+    if(arr[start]<=arr[end]){
+        return ans;
+    }
+    while(start<=end){
+        int mid = start + (end-start)/2;
+        if(arr[end]>=arr[mid]){
+            ans = arr[mid];
+            end = mid-1;
+        }
+        else{
+            start = mid+1;
+        }
+    }
+}
