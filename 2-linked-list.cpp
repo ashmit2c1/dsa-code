@@ -1,149 +1,170 @@
 #include<bits/stdc++.h>
 using namespace std;
-// =========================================== // 
-// CREATING THE LIST NODE CLASS FOR LINKED LIST 
-// =========================================== // 
+
 class Node{
     public:
     int data;
     Node* next;
-
     Node(int data){
-        this->data=data;
-        this->next=NULL;
+        this->data = data;
+        this->next = NULL;
+
     }
 };
 
-// =========================================== // 
-// INSERTING A NODE AT THE HEAD OF A LINKED LIST
-// =========================================== // 
+
+//INSERT AT HEAD OF LINKED LIST 
 void insertAtHead(Node* &head, int value){
     Node* newNode = new Node(value);
     newNode->next = head;
-    head=newNode;
+    head = newNode;
 }
-// =========================================== // 
-// TRAVERSING A LINKED LIST
-// =========================================== // 
+// TRAVERSEING A LINKED LIST 
 void traverse(Node* &head){
-    Node* temp = head;
+    Node* temp  = head;
     while(temp!=NULL){
-        cout << temp->data << "->";
+        cout << temp->data << " -> ";
         temp = temp->next;
     }
     cout << "NULL" << "\n";
 }
-// =========================================== // 
-// INSERTING A NODE AT THE TAIL OF A LINKED LIST 
-// =========================================== // 
+// PRINTING AN ARRAY AS LINKED LIST 
+void printLinkedListArray(Node* &head, vector<int> &arr){
+    int n = arr.size();
+    for(int i = 0; i<n ; i++){
+        if(head==NULL){
+            head = new Node(arr[i]);
+        }
+        else{
+            Node* newNode = new Node(arr[i]);
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+}
+// INSERTING AT THE TAIL OF A LINKED LIST 
 void insertAtTail(Node* &head, int value){
     Node* newNode = new Node(value);
     Node* temp = head;
     while(temp->next!=NULL){
-        temp=temp->next;
+        temp = temp->next;
+
     }
     temp->next = newNode;
 }
-// =========================================== // 
-// INSERTING A NEW NODE AT THE KTH POSITION 
-// =========================================== // 
-void insertAtK(Node* &head, int value, int pos){
+// PRINTING AN ARRAY AS LINKED LIST TAIL
+void printLinkedListArrayTail(Node* &head, vector<int> &arr){
+    int n = arr.size();
+    for(int i = 0; i<n ; i++){
+        if(head==NULL){
+            head = new Node(arr[i]);
+        }
+        else{
+            Node* newNode = new Node(arr[i]);
+            Node* temp = head;
+            while(temp->next!=NULL){
+                temp=temp->next;
+            }
+            temp->next = newNode;
+        }
+
+    }
+}
+// INSERT A NODE AT THE NTH POSITION IN LINKED LIST 
+void insertAtK(Node* &head, int K, int value) {
+    if (K == 0) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+        return;
+    }
+
     Node* temp = head;
     Node* newNode = new Node(value);
-    if(pos==0){
-        insertAtHead(head,value);
+    int currPosition = 0;
+    while (currPosition != K - 1) {
+        temp = temp->next;
+        currPosition++;
     }
-    int position = 0;
-    while(position!=pos-1){
-        temp=temp->next;
-        position++;
-    }
-    newNode->next=temp->next;
-    temp->next=newNode;
+        newNode->next = temp->next;
+        temp->next = newNode;
 }
-// =========================================== // 
-// UPDATING THE VALUE AT THE KTH POSITION
-// =========================================== // 
-void updateAtK(Node* &head, int K, int value){
-    Node* temp = head;
-    int position = 0;
-    while(position!=K){
-        temp=temp->next;
-        position++;
-    }
-    temp->data = value;
-}
-// =========================================== // 
-// DELETE A NODE AT THE HEAD OF THE LINKED LIST
-// =========================================== // 
+// DELETE A NODE AT THE HEAD OF THE LINKED LIST 
 void deleteAtHead(Node* &head){
     Node* temp = head;
-    head=head->next;
-    free(temp);
+    head = head->next;
+    delete(temp);
 }
-// =========================================== // 
-// DELETE A NODE AT THE END OF A LINKED LIST
-// =========================================== // 
+// DELETE AT THE TAIL OF THE LINKED LIST 
 void deleteAtTail(Node* &head){
-    Node* temp =head;
-    while(temp->next->next!=NULL){
-        temp=temp->next;
+    if(head==NULL){
+        return;
     }
-    Node* delNode = temp->next;
-    temp->next=NULL;
-    free(temp);
-}
-// =========================================== // 
-// DELETE A NODE AT THE KTH POSITION 
-// =========================================== // 
-void deleteAtK(Node* &head, int K){
-    if(K==0){
-        deleteAtHead(head);
+    if(head->next==NULL){
+        delete(head);
+        head = NULL;
+        return;
     }
-    int pos=0;
     Node* temp = head;
-    while(pos!=K-1){
-        temp=temp->next;
+    while(temp->next->next!=NULL){
+        temp = temp->next;
     }
-    Node* delNode  = temp->next;
-    delNode->next = temp->next->next;
-    free(temp);
+    Node* deleteNode = temp->next;
+    temp->next = NULL;
+    delete(deleteNode);
 }
-// =========================================== // 
+// DELETE AT THE KTH POSITION OF LINKED LIST 
+void deleteAtKthPosition(Node* head,int pos){
+    if(pos==0){
+        deleteAtHead(head);
+        return;
+    }
+    Node* prev = head;
+    int currPos=0;
+    while(currPos!=pos-1){
+        prev = prev->next;
+        currPos++;
+    }
+    Node* temp = prev->next;
+    prev->next = prev->next->next;
+    delete(temp);
+}
 // LENGTH OF THE LINKED LIST 
-// =========================================== // 
-int lengthOfLinkedList(Node* &head){
+int lengthLinkedList(Node* &head){
     int count=0;
     while(head!=NULL){
-        head=head->next;
         count++;
+        head=head->next;
     }
     return count;
 }
-// =========================================== // 
-// PRINT THE KTH NODE
-// =========================================== // 
-void printKthNode(Node* &head, int K){
-    int count=0;
-    while(count<=K){
-        head=head->next;
+// PRINT THE Ith NODE IN THE LINKED LIST 
+void printIthNode(Node* head, int i) {
+    if (i < 0) {
+        cout << -1 << "\n";
+        return;
+    }
+    int count = 0;
+    Node* current = head;
+    while (count < i && current != nullptr) {
+        current = current->next;
         count++;
     }
-    cout << head->data << "\n";
+    if (current != nullptr) {
+        cout << current->data << "\n";
+    } else {
+        cout << -1 << "\n";
+    }
 }
+
 int main(){
-    // CREATING NODES STATICALLY
-    Node n1(1);
-    Node n2(2);
-    n1.next=&n2;
-    // CREATING NODES DYNAMICALLY
-    Node *n3 = new Node(3);
-    Node *n4 = new Node(4);
-    n3->next=n4;
-    Node* head = NULL;
-    insertAtHead(head,2);
-    insertAtHead(head,4);
-    traverse(head);
-    insertAtTail(head,6);
-    traverse(head);
+    Node* thirdHead = NULL;
+    vector<int> arr;
+    for(int i=1;i<=5;i++){
+        arr.push_back(i);
+    }
+    printLinkedListArrayTail(thirdHead,arr);
+    printIthNode(thirdHead,3);
+
+    
 }
