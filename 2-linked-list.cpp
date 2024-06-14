@@ -156,7 +156,44 @@ void printIthNode(Node* head, int i) {
         cout << -1 << "\n";
     }
 }
-
+// UDPATE THE VALUE AT Kth POSITION IN LINKED LIST 
+void updateAtK(Node* &head, int K, int value){
+    Node* temp = head;
+    int curr = 0;
+    while(curr!=K){
+        temp = temp->next;
+        curr++;
+    }
+    temp->data = value;
+}
+// REVERSE A GIVEN LINKED LIST
+Node* reverseLinkedList(Node* &head){
+    Node* prev = NULL;
+    Node* current = head;
+    Node* next = current->next;
+    while(current!=NULL){
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current=next;
+    }
+    return prev;
+}
+// FIND THE MIDDLE OF THE LINKED LIST USING COUNT
+int findMiddleCount(Node* &head){
+    int count = 0;
+    Node* temp = head;
+    while(temp!=NULL){
+        count++;
+        temp = temp->next;
+    }
+    count = count/2;
+    Node* ans = head;
+    while(count--){
+        ans = ans->next;
+    }
+    return ans->data;
+}
 int main(){
     Node* thirdHead = NULL;
     vector<int> arr;
@@ -164,7 +201,10 @@ int main(){
         arr.push_back(i);
     }
     printLinkedListArrayTail(thirdHead,arr);
+    traverse(thirdHead);
     printIthNode(thirdHead,3);
+    updateAtK(thirdHead,3,2);
+    traverse(thirdHead);
 
     
 }

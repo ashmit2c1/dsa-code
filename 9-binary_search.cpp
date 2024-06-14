@@ -125,26 +125,6 @@ int findIndex(vector<int> &arr,int x){
     return ans;
 }
 // ======================================= // 
-// FIND THE SMALLEST ELEMENT IN A ROTATE ARRAY // 
-// ======================================= // 
-int finMin(vector<int>& arr){
-    int n = arr.size();
-    int start =0 ;
-    int end = n-1;
-    int ans;
-    while(start<=end){
-        int mid = start + (end-start)/2;
-        if(arr[mid]>=arr[0]){
-            start = mid+1;
-        }
-        else{
-            ans = arr[mid];
-            end = mid-1;
-        }
-    }
-    return ans;
-}
-// ======================================= // 
 // FIND AN ELEMENT USING BINARY SEARCH IN 2D MATRIX // 
 // ======================================= // 
 bool isPresent(vector<vector<int>> &matrix, int X){
@@ -270,4 +250,71 @@ int findMin(vector<int> arr){
             start = mid+1;
         }
     }
+}
+// ======================================= // 
+// FIND THE KTH POSITIVE MISSING NUMBER // 
+// ======================================= //
+int findKthPositive(vector<int>& arr, int k) {
+        int n = arr.size();
+        int start =0 ;
+        int end = n-1;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            int missingNumber = arr[mid]-(mid+1);
+            if(k>missingNumber){
+                start = mid+1;
+            }
+            else{
+                end = mid-1;
+            }
+        }
+        return start + k;
+
+}
+// ======================================= // 
+// BOOK ALLOCATION PROBLEM  // 
+// ======================================= //
+bool isPossible(vector<int> &books, int n, int m, int mid){
+    int studentCount=1;
+    int pageSum = 0;
+    for(int i = 0; i<n ; i++){
+        if(books[i]>mid){
+            return false;
+        }
+        if(pageSum+books[i]<=mid){
+            pageSum+=books[i];
+        }
+        else{
+            studentCount++;
+            if(studentCount>m){
+                return false;
+            }
+            pageSum=books[i];
+        }
+    }
+    return true;
+}
+int findPages(vector<int> &books, int n, int m){
+    int sum = 0;
+    for(int i = 0; i<n ; i++){
+        sum+=books[i];
+    }
+    if(m>n){
+        return -1;
+    }
+    int start =0 ;
+    int end = sum;
+    int ans = -1;
+    while(start<=end){
+        // guess for the max pages a student can read
+        int mid = start + (end-start)/2;
+        if(isPossible(books,n,m,mid)==true){
+            ans = mid;
+            end = mid-1;
+        }
+        else{
+            start = mid+1;
+        }
+    }
+    return ans;
 }
