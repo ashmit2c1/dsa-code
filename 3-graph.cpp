@@ -491,3 +491,78 @@ int numIslands(vector<vector<char>>& grid) {
     }
     return count;
 }
+// DISTANCE BETWEEN NODES IN UNDIRECTED GRAPH USING BFS
+vector<int> shortestPath(vector<vector<int>>&edges, int N, int M, int src){
+    vector<vector<int>> adj(N);
+    for(int i=0;i<M;i++){
+        adj[edges[i][0]].push_back(edges[i][1]);
+        adj[edges[i][1]].push_back(edges[i][0]);
+
+    }
+    vector<int> distance(N,-1);
+    vector<bool> visited(N,false);
+    queue<int> q;
+    q.push(src);
+    distance[src]=0;
+    visited[src]=true;
+    while(q.empty()==false){
+        int node  = q.front();
+        q.pop();
+        int n = adj[node].size();
+        for(int i = 0; i<n ; i++){
+            int neighbor = adj[node][i];
+            if(visited[neighbor]==true){
+                continue;
+
+            }
+            else{
+                visited[neighbor]=true;
+                distance[neighbor]=1+distance[node];
+                q.push(neighbor);
+            }
+        }
+    }
+    return distance;
+}
+// SHORTEST DISTANCE IN DIRECTED WEIGHT ACYCLIC GRAPH
+void DFS(int node, vector<pair<int,int>>adj[],vector<bool>&visited, stack<int>&st){
+    visited[node]=true;
+    int n = adj[node].size();
+    for(int i = 0; i<n ; i++){
+        int neighbor = adj[node][i].first;
+        if(visited[neighbor]==false){
+            DFS(neighbor,adj,visited,st);
+        }
+    }
+    st.push(node);
+}
+vector<int> shortestPath(int N, int M, vector<vector<int>>&edges){
+    vector<pair<int,int>> adj[N];
+    for(int i=0;i<M;i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        int weight = edges[i][2];
+        adj[u].push_back(make_pair(v,weight));
+    }
+    stack<int> st;
+    vector<bool> visited(N,false);
+    DFS(0,adj,visited,st);
+    vector<int> distance(N,INT_MAX);
+    distance[0]=0;
+    while(st.empty()==false){
+        int node = st.top();
+        st.pop();
+        int n = adj[node].size();
+        for(int i = 0; i<n ; i++){
+            int neighbor = adj[node][i].first;
+            int weight = adj[node][i].second;
+            distance[neighbor] = min(distance[neighbor],weight+distance[node]);
+        }
+    }
+    for(int i=0;i<N;i++){
+        if(distance[i]==INT_MAX){
+            distance[i]=-1;
+        }
+    }
+    return distance;
+}
