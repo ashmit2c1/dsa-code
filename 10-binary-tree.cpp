@@ -163,6 +163,31 @@ int findMaxValueBinaryTree(TreeNode<int>* root){
     ans = max(ans,max(leftMax,rightMax));
     return ans;
 }
+// FIND THE NUMBER OF LEAF NODES IN BINARY TREE
+int countLeafNodes(TreeNode<int>* root){
+    if(root==NULL){
+        return 0;
+    }
+    if(root->left && root->right==NULL){
+        return 1;
+    }
+    return countLeafNodes(root->left) + countLeafNodes(root->right);
+}
+// FIND THE DIAMETER OF GIVEN BINARY TREE
+int height(TreeNode<int>* root, int &diameter){
+    if(root==NULL){
+        return 0;
+    }
+    int leftHeight = height(root->left,diameter);
+    int rightHeight = height(root->right,diameter);
+    diameter = max(diameter,leftHeight+rightHeight);
+    return 1+(max(leftHeight,rightHeight));
+}
+int findDiameter(TreeNode<int>* root){
+    int diameter = 0;
+    height(root,diameter);
+    return diameter+1;
+}
 int main(){
     // CREATING THE TREE NODES DYNAMICALLY
     TreeNode<int>* root = new TreeNode<int>(1);
