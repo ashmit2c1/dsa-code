@@ -566,3 +566,30 @@ vector<int> shortestPath(int N, int M, vector<vector<int>>&edges){
     }
     return distance;
 }
+// DIJKITRA ALGORITHM
+vector<int> dijkistra(int V, vector<vector<int>> adj[], int S){
+    vector<bool> visited(V,false);
+    vector<int> distance(V,INT_MAX);
+    distance[S]=0;
+    int count=V;
+    while(count--){
+        int node = -1;
+        int value = INT_MAX;
+        for(int i=0;i<V;i++){
+            if(visited[i]==false && value > distance[i]){
+                node = i;
+                value = distance[i];
+            }
+        }
+        visited[node]=true;
+        int n = adj[node].size();
+        for(int i = 0; i<n ; i++){
+            int neighbor = adj[node][i][0];
+            int weight = adj[node][i][1];
+            if(visited[neighbor]==false && distance[node]+weight < distance[neighbor]){
+                distance[neighbor]=distance[node]+weight;
+            }
+        }
+    }
+    return distance;
+}
