@@ -593,3 +593,51 @@ vector<int> dijkistra(int V, vector<vector<int>> adj[], int S){
     }
     return distance;
 }
+// SHORTEST DISTANCE IN WEIGHTED UNDIRECTED GRAPH
+vector<int> shortestPathWeightedUndirected(int V, int m, vector<vector<int>> &edges){
+    vector<pair<int,int>> adj[V+1];
+    for(int i = 0; i<m ; i++){
+        int u = edges[i][0];
+        int v  = edges[i][1];
+        int weight  = edges[i][2];
+        adj[u].push_back(make_pair(v,weight));
+        adj[v].push_back(make_pair(u,weight));
+    }
+    vector<bool> visited(V+1,false);
+    vector<bool> distance(V+1,INT_MAX);
+    vector<int> parent(V+1,-1);
+    priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    pq.push(make_pair(0,1));
+    distance[1]=0;
+    while(pq.empty()==false){
+        int node = pq.top().second;
+        pq.pop();
+        if(visited[node]==true){
+            continue;
+        }
+        visited[node]=true;
+        int n = adj[node].size();
+        for(int i = 0; i<n ; i++){
+            int neighbor = adj[node][i].first;
+            int weight = adj[node][i].second;
+            if(visited[neighbor]==false && distance[neighbor]>distance[node] + weight){
+                distance[neighbor]=distance[node]+weight;
+                pq.push(make_pair(distance[neighbor],neighbor));
+                parent[neighbor]=node;
+            }
+        }
+    }
+    vector<int> path;
+    if(parent[V]==-1){
+        path.push_back(-1);
+        return path;  
+    }
+    int destination = V;
+    while(destination--){
+        path.push_back(destination);
+        destination=parent[destination];
+    }
+    path.push_back(distance[V]);
+    reverse(path.begin(),path.end());
+    return path;
+}
