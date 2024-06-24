@@ -188,6 +188,78 @@ int findDiameter(TreeNode<int>* root){
     height(root,diameter);
     return diameter+1;
 }
+// FIND THE SUM OF BINARY TREE ( given a binary tree find the sum of all nodes)
+void total(TreeNode<int>* root, long &sum){
+    if(root==NULL){
+        return;
+    }
+    sum+=root->data;
+    total(root->left,sum);
+    total(root->right,sum);
+}
+long int sumBT(TreeNode<int>* root){
+    long int sum;
+    total(root,sum);
+    return sum;
+
+}
+// SECOND MIND TO FIND THE SUM OF BINARY TREE WITH LESS LINES OF CODE 
+long int sumBT2(TreeNode<int>* root){
+    if(root==NULL){
+        return 0;
+    }
+    return root->data + sumBT2(root->right) + sumBT2(root->left);
+}
+// CHECK WHETHER THE GIVEN TWO BINARY TREE ARE IDENTICAL OR NOT 
+bool isIdentical(TreeNode<int>* root1, TreeNode<int>* root2){
+    if(root1==NULL && root2==NULL){
+        return true;
+    }
+    if((root1==NULL && root2!=NULL) || (root1!=NULL && root2==NULL)){
+        return false;
+    }
+    if(root1->data != root2->data){
+        return false;
+    }
+    return isIdentical(root1->right, root2->right) && isIdentical(root1->left, root2->left);
+}
+// CONVERT A GIVEN BINARY TREE TO ITS MIRROR IMAGE  ( return the same tree )
+void mirror(TreeNode<int>* &root){
+    if(root==NULL){
+        return;
+    }
+    TreeNode<int>* temp = root->right;
+    root->right = root->left;
+    root->left = temp ;
+    mirror(root->left);
+    mirror(root->right);
+}
+// CHECK FOR BALANCE SUB TREE
+// a tree is called balance when the difference in height of left subtree and right subtree is greater 
+// than -1 and less than 1 
+
+int height(TreeNode<int>* root, bool &valid){
+    if(root==NULL){
+        return 0;
+    }
+    int left = height(root->left, valid);
+    int right = height(root->right,valid);
+    if(abs(left-right)>1){
+        valid = 0;
+    }
+    return 1+max(left,right);
+}
+bool isBalanced(TreeNode<int>* root){
+    bool valid = 1;
+    height(root,valid);
+    return valid;
+}
+// LEVEL ORDER TRAVERSAL IN SPIRAL FORM 
+vector<int> levelOrderSpiral(TreeNode<int>* root){
+
+}
+// CHECK IF TWO NODES ARE COUSING 
+
 int main(){
     // CREATING THE TREE NODES DYNAMICALLY
     TreeNode<int>* root = new TreeNode<int>(1);
