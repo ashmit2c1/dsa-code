@@ -2,7 +2,9 @@
 using namespace std;
 
 
-// breadth first search in graph 
+// =========================================== // 
+// BREADTH FIRST SEARCH 
+// =========================================== // 
 vector<int> bfsGraph(int V, vector<int> adjLs[]){
     queue<int> q; // queue
     vector<int> ans; // ans 
@@ -24,7 +26,9 @@ vector<int> bfsGraph(int V, vector<int> adjLs[]){
     return ans;
 }
 
-// Depth first search in graph 
+// =========================================== // 
+// DEPTH FIRST SEARCH
+// =========================================== // 
 void dfs(int node, vector<int> adj[],vector<bool> &vis, vector<int> &ans){
     vis[node]=true;
     ans.push_back(node);
@@ -42,34 +46,8 @@ vector<int> dfsGraph(int V, vector<int> adj[]){
     return ans;
 }
 
-int main(){
-    int n; // number of nodes 
-    int m; // number of edges
-    cin >> n >> m;
-    int adjMat[n+1][m+1]; // defining the ajdacency matrix
-    // initialising the matrix to zero
-    for(int i = 0; i<n ; i++){
-        for(int j = 0; j<m ; j++){
-            adjMat[i][j]=0;
-        }
-    }
-    // adding the connections between the vertices
-    for(int i = 0; m ; i++){
-        int u,v;
-        cin >> u >> v;
-        adjMat[u][v]=1;
-        adjMat[v][u]=1;
-    }
-    vector<vector<int>> adjList(n+1); // defining the adjacency list 
-    for(int i = 0; i<m ; i++){
-        int u,v;
-        cin >> u >> v;
-        adjList[u].push_back(v);
-        adjList[v].push_back(u);
-    }
-}
 // =========================================== // 
-// CYCLE DETECTION USING DFS
+// CYCLE DETECTION USING DFS IN UNDIRECTED UNWEIGHTED GRAPH
 // =========================================== // 
 bool checkForCycle(int node, int parent, vector<bool>&visited,vector<int> adj[]){
     visited[node]=true;
@@ -101,7 +79,7 @@ bool isCycle(int V, vector<int> adj[]){
     return false;
 }
 // =========================================== // 
-// CYCLE DETECTION USING BFS
+// CYCLE DETECTION USING BFS IN UNDIRECTED UNWEIGHTED GRAPH
 // =========================================== // 
 bool checkForCycleBFS(vector<int> adj[], vector<bool> &visited, int node){
     visited[node]= true;
@@ -201,7 +179,7 @@ vector<int> kahnsAlgorithm(int V, vector<int> adj[]){
     return ans;
 }
 // =========================================== // 
-// DETECT CYCLE IN DIRECTED GRAPH DFS
+// DETECT CYCLE IN DIRECTED UNWEIGHTED GRAPH DFS
 // =========================================== // 
 bool detectCycle(int node, vector<int> adj[], vector<bool >&visited, vector<bool>&path){
     visited[node]=true;
@@ -238,7 +216,7 @@ bool isCyclic(int V, vector<int> adj[]){
     return false;
 }
 // =========================================== // 
-// DETECT CYCLE IN DIRECTED GRAPH BFS ( KAHNS ALGORITHM)
+// DETECT CYCLE IN DIRECTED UNWEIGHTED GRAPH BFS ( KAHNS ALGORITHM)
 // =========================================== // 
 
 bool isCycle(int V, vector<int> adj[]){
@@ -491,7 +469,9 @@ int numIslands(vector<vector<char>>& grid) {
     }
     return count;
 }
+// =========================================== // 
 // DISTANCE BETWEEN NODES IN UNDIRECTED GRAPH USING BFS
+// =========================================== // 
 vector<int> shortestPath(vector<vector<int>>&edges, int N, int M, int src){
     vector<vector<int>> adj(N);
     for(int i=0;i<M;i++){
@@ -524,6 +504,9 @@ vector<int> shortestPath(vector<vector<int>>&edges, int N, int M, int src){
     }
     return distance;
 }
+// =========================================== // 
+// SHORTEST DISTANCE IN DIRECTED WEIGHT ACYCLIC GRAPH
+// =========================================== // 
 // SHORTEST DISTANCE IN DIRECTED WEIGHT ACYCLIC GRAPH
 void DFS(int node, vector<pair<int,int>>adj[],vector<bool>&visited, stack<int>&st){
     visited[node]=true;
@@ -566,7 +549,9 @@ vector<int> shortestPath(int N, int M, vector<vector<int>>&edges){
     }
     return distance;
 }
-// DIJKITRA ALGORITHM
+// =========================================== // 
+// DJKISTRA ALGORITHM
+// =========================================== // 
 vector<int> dijkistra(int V, vector<vector<int>> adj[], int S){
     vector<bool> visited(V,false);
     vector<int> distance(V,INT_MAX);
@@ -593,7 +578,9 @@ vector<int> dijkistra(int V, vector<vector<int>> adj[], int S){
     }
     return distance;
 }
-// SHORTEST DISTANCE IN WEIGHTED UNDIRECTED GRAPH
+// =========================================== // 
+// SHORTEST DISTANCE IN WEIGHTED DIRECTED GRAPH
+// =========================================== // 
 vector<int> shortestPathWeightedUndirected(int V, int m, vector<vector<int>> &edges){
     vector<pair<int,int>> adj[V+1];
     for(int i = 0; i<m ; i++){
@@ -640,4 +627,34 @@ vector<int> shortestPathWeightedUndirected(int V, int m, vector<vector<int>> &ed
     path.push_back(distance[V]);
     reverse(path.begin(),path.end());
     return path;
+}
+
+
+
+
+int main(){
+    int n; // number of nodes 
+    int m; // number of edges
+    cin >> n >> m;
+    int adjMat[n+1][m+1]; // defining the ajdacency matrix
+    // initialising the matrix to zero
+    for(int i = 0; i<n ; i++){
+        for(int j = 0; j<m ; j++){
+            adjMat[i][j]=0;
+        }
+    }
+    // adding the connections between the vertices
+    for(int i = 0; m ; i++){
+        int u,v;
+        cin >> u >> v;
+        adjMat[u][v]=1;
+        adjMat[v][u]=1;
+    }
+    vector<vector<int>> adjList(n+1); // defining the adjacency list 
+    for(int i = 0; i<m ; i++){
+        int u,v;
+        cin >> u >> v;
+        adjList[u].push_back(v);
+        adjList[v].push_back(u);
+    }
 }
