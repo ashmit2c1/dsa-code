@@ -260,6 +260,99 @@ vector<int> levelOrderSpiral(TreeNode<int>* root){
 }
 // CHECK IF TWO NODES ARE COUSING 
 
+// LEFT VIEW OF BINARY TREE
+vector<int> leftView(TreeNode<int>* root){
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    while(q.empty()==false){
+        int n = q.size();
+        ans.push_back(q.front()->data);
+        while(n--){
+            TreeNode<int>* temp = q.front();
+            q.pop();
+            if(temp->left!=NULL){
+                q.push(temp->left);
+            }
+            if(temp->right!=NULL){
+                q.push(temp->right);
+            }
+        }
+    }
+    return ans;
+}
+// LEFT VIEW OF BINARY TREE USING RECURSION 
+void LeftView(TreeNode<int>* root, int level ,vector<int> &ans){
+    if(root==NULL){
+        return;
+    }
+    if(level==ans.size()){
+         ans.push_back(root->data);
+    }
+    LeftView(root->left,level+1,ans);
+    LeftView(root->right,level+1,ans);
+}
+vector<int> leftView(TreeNode<int>* root){
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    LeftView(root,0,ans);
+    return ans;
+}
+// RIGHT VIEW OF BINARY TREE 
+vector<int> rightView(TreeNode<int>* root){
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    queue<TreeNode<int>*> q;
+    q.push(root);
+    while(q.empty()==false){
+        int n = q.size();
+        ans.push_back(q.front()->data);
+        while(n--){
+            TreeNode<int> * temp = q.front();
+            q.pop();
+            if(temp->right!=NULL){
+                q.push(temp->right);
+            }
+            if(temp->left!=NULL){
+                q.push(temp->right);
+            }
+        }
+    }
+    return ans;
+}
+
+// RIGHT VIEW OF BINARY TREE USING RECURSION 
+void RightView(TreeNode<int>* root, int level, vector<int> &ans){
+    if(root==NULL){
+        return;
+    }
+    if(level==ans.size()){
+        ans.push_back(root->data);
+
+    }
+    RightView(root->right,level+1,ans);
+    RightView(root->left,level+1,ans);
+}
+vector<int> rightView(TreeNode<int>* root){
+    vector<int> ans;
+    if(root==NULL){
+        return ans;
+    }
+    RightView(root,0,ans);
+    return ans;
+     
+}
+
+// TOP VIEW OF BINARY TREE
+
+
 int main(){
     // CREATING THE TREE NODES DYNAMICALLY
     TreeNode<int>* root = new TreeNode<int>(1);
