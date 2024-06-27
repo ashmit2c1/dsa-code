@@ -352,7 +352,56 @@ vector<int> rightView(TreeNode<int>* root){
 
 // TOP VIEW OF BINARY TREE
 
+// CONSTRUCT A BINARY TREE FROM INRODER AND PREORDER TRAVERSAL 
+int find(int in[], int target, int start, int end){
+        for(int i=start;i<=end;i++){
+            if(in[i]==target){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    TreeNode<int>* tree(int in[], int pre[], int InStart, int InEnd, int index){
+        if(InStart > InEnd){
+            return NULL;
+        }
+        TreeNode<int>* root = new TreeNode<int>(pre[index]);
+        int pos = find(in, pre[index],InStart, InEnd);
+        
+        root->left = tree(in,pre,InStart,pos-1,index+1);
+        root->right = tree(in,pre,pos+1,InEnd,index+(pos-InStart)+1);
+        return root;
+    }
 
+    TreeNode<int>* buildTree(int in[], int pre[], int n) {
+        return tree(in, pre, 0, n - 1, 0);
+}
+// CONSTRUCT A TREE FROM POST ORDER AND INORDER TRAVERSAL 
+int find(int in[], int target, int start, int end){
+        for(int i=start;i<=end;i++){
+            if(in[i]==target){
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    TreeNode<int>* tree(int in[], int post[], int InStart, int InEnd, int index){
+        if(InStart > InEnd){
+            return NULL;
+        }
+        TreeNode<int>* root = new TreeNode<int>(post[index]);
+        int pos = find(in, post[index],InStart, InEnd);
+
+        root->right = tree(in,post,pos+1,InEnd,index-1);
+        root->left = tree(in,post,InStart,pos-1,index-(InEnd-pos )-1);
+        return root;
+    }
+
+    TreeNode<int>* buildTree(int in[], int post[], int n) {
+        return tree(in, post, 0, n - 1, n-1);
+}
 int main(){
     // CREATING THE TREE NODES DYNAMICALLY
     TreeNode<int>* root = new TreeNode<int>(1);
